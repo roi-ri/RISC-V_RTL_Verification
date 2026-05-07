@@ -1,4 +1,4 @@
-# Proyect Distribution 
+# Project Distribution 
 
 |Brandon|Luis|Rodrigo|
 |---|---|---|
