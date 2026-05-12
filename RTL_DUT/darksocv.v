@@ -29,7 +29,7 @@
  */
 
 `timescale 1ns / 1ps
-`include "../rtl/config.vh"
+`include "config.vh"         // Modificado. Antes: `include "../rtl/config.vh"
 
 module darksocv
 (
