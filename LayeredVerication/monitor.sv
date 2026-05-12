@@ -18,6 +18,9 @@
 // Se crea el objeto monitor para la simulación:
 class monitor;
 
+    // Se importa el paquete con las etiquetas de las instrucciones: 
+    import instr_pkg::*;
+
     // Se definen (instancian) las variables para el scoreboard y la interfaz.
     virtual ifc_darksocv ifc_darksocv_obj;      // Interfaz Virtual.
     scoreboard scoreboard_obj;                  // Scoreboard. 
@@ -30,6 +33,15 @@ class monitor;
 
     // Tarea encargada de revisar (checker):
     task check();
+        // Se carga el struct con los parámetros de interés: 
+        scoreboard::result reference;
+
+        // Se crean variables para manejar los diferentes casos según la instrucción: 
+        logic [31:0]  resul_teorico;
+        logic [31:0]  resul_experimental;
+        logic         comparar;
+        string        instruccion; 
+
         // Se crea el forever para que se revise durante la simulación: 
         forever begin
             @(posedge ifc_darksocv_obj.clk);     // Se espera que se cargue la instrucción/valor.
