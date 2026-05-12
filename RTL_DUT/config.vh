@@ -49,6 +49,10 @@
 // wait-state, which means sometimes the read performance is reduced.
 `define __3STAGE__
 
+// Se definen icarus y regdump para que todo se compile sin errores.
+`define __ICARUS__
+`define __REGDUMP__
+
 // RV32I vs RV32E:
 //
 // The difference between the RV32I and RV32E regarding the logic space is
