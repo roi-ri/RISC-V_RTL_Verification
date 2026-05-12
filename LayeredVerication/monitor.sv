@@ -28,7 +28,24 @@ class monitor;
         this.scoreboard_obj = scoreboard_obj;
     endfunction
 
-    
+    // Tarea encargada de revisar (checker):
+    task check();
+        // Se crea el forever para que se revise durante la simulación: 
+        forever begin
+            @(posedge ifc_darksocv_obj.clk);     // Se espera que se cargue la instrucción/valor.
+            @(negedge ifc_darksocv_obj.clk);     // Se espera al negedge después del posedge, para asegurar estabilidad.
+            $display("Monitor-checker: 
+            El resultado teorico es %d. 
+            El resultado experimental es %d",
+            scoreboard_obj.return_ref_value(), ifc_adder_obj.out);
+            
+            // Se revisa si ambos resultados coinciden o no: 
+            if (scoreboard_obj.return_ref_value() != ifc_adder_obj.out) begin 
+                $display("Monitor-checker: Los resultados no coinciden (Fallo).");
+            end else begin
+                $display("Monitor-checker: Los resultados coinciden (Paso).");
+            end 
+        end
+    endtask
 
 endclass
-
