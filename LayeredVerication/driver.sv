@@ -28,7 +28,7 @@ import instr_pkg::*;
 class riscv_driver;
     instruction_stimulus stimulus_obj; 
     scoreboard scoreboard_obj; 
-    virtual ifc_ricsv ifc_riscv_obj; 
+    virtual ifc_riscv ifc_riscv_obj; 
 
 
     logic [31:0] instr_wrd; 
@@ -45,7 +45,7 @@ class riscv_driver;
     instr_pkg::i_jump_instr_t i_jump_instr;
 
 
-    function new (virtual ifc_ricsv ifc_riscv_obj, scoreboard scoreboard_obj);
+    function new (virtual ifc_riscv ifc_riscv_obj, scoreboard scoreboard_obj);
         this.ifc_riscv_obj = ifc_riscv_obj;
         this.scoreboard_obj = scoreboard_obj;
     endfunction
