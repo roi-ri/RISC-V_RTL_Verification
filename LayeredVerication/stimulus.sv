@@ -28,7 +28,6 @@ class instruction_stimulus;
     randc i_shift_instructions        i_shift_instr;
     randc i_loads_instructions        i_load_instr;
     randc i_jump_instructions         i_jump_instr;
-    randc i_mem_sys_instructions      i_mem_sys_instr;
     randc s_instructions              s_instr;
     randc b_instructions              b_instr;
     randc u_instructions              u_instr;
