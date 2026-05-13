@@ -46,9 +46,6 @@ class monitor;
         forever begin
             // Como el darkriscv empieza a procesar instrucciones hasta después:
             if (ifc_riscv_obj.res) begin
-                // Se pone en 1 la variable de primera iteración:
-                primera_iteracion = 1'b1;
-
                 // Se imprime el mensaje que indica que se espera a que baje el reset:
                 $display("Monitor-checker: darkriscv en reset, esperando que salga.");
 
@@ -136,7 +133,7 @@ class monitor;
                         verificacion = "U_TYPE: Registro de resultado.";
                     end else begin
                         comparar = 1'b0;
-                        verficacion = "U_TYPE: Instrucción no implementada.";
+                        verificacion = "U_TYPE: Instrucción no implementada.";
                     end 
                 end
 
@@ -158,7 +155,7 @@ class monitor;
                 $display("Estado de la revisión: %s",verificacion);
 
                  // Se revisa si ambos resultados coinciden o no: 
-                if (resul_teorico != resul_experimental) begin 
+                if (resul_teorico !== resul_experimental) begin 
                     $display("Verificación: Los resultados no coinciden (Falló).");
                 end else begin
                     $display("Verificación: Los resultados coinciden (Pasó).");
