@@ -18,19 +18,26 @@
 */
 package  instr_pkg; 
 
-//Enum con los tipos de instruccion disponibles y con la asignacion de un codigo para poder utilizarlos dentro de los constrains para definir sobre cuales datos van a variar las randomizaciones 
-typedef enum logic [3:0]{
+//Enum con los tipos de instruccion disponibles y con la asignacion de un codigo para poder utilizarlos dentro de los constrains para definir sobre cuales datos van a variar las randomizaciones
+
+typedef enum logic [3:0] {
     R_TYPE                  = 4'b0001, 
     I_TYPE_ARITHMETIC       = 4'b0010,
     I_TYPE_SHIFT            = 4'b0011,
     I_TYPE_LOAD             = 4'b0100,
-    I_TYPE_MEMORY_SYSTEM    = 4'b0101,
-    I_TYPE_JUMP             = 4'b0110,
-    S_TYPE                  = 4'b0111,
-    B_TYPE                  = 4'b1000,
-    U_TYPE                  = 4'b1001,
-    J_TYPE                  = 4'b1010
-}instr_set; 
+
+    FENCE_TYPE              = 4'b0101,
+    CSR_REG_TYPE            = 4'b0110,
+    CSR_IMM_TYPE            = 4'b0111,
+    ECALL_BREAK_TYPE        = 4'b1000,
+
+    I_TYPE_JUMP             = 4'b1001,
+    S_TYPE                  = 4'b1010,
+    B_TYPE                  = 4'b1011,
+    U_TYPE                  = 4'b1100,
+    J_TYPE                  = 4'b1101
+} instr_set;
+
 
 
 /*
@@ -77,12 +84,36 @@ typedef enum logic[3:0]{
 typedef enum logic[3:0]{
     JALR
 }i_jump_instructions; 
-
+/*
 typedef enum{
     FENCE, FENCE_I, CSRRW, CSRRS, CSRRC, CSRRWI, CSRRCI, ECALL, EBREAK   
 }i_mem_sys_instructions; 
+*/
+
+typedef enum logic [1:0] {
+    FENCE,
+    FENCE_I
+} fence_instructions;
 
 
+typedef enum logic [1:0] {
+    CSRRW,
+    CSRRS,
+    CSRRC
+} csr_register_instructions;
+
+
+typedef enum logic [1:0] {
+    CSRRWI,
+    CSRRSI,
+    CSRRCI
+} csr_immediate_instructions;
+
+
+typedef enum logic [0:0] {
+    ECALL,
+    EBREAK
+} ecall_break_instructions;
 
 /*
 * Como se tiene una organizacion de las intrucciones 
