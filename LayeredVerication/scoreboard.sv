@@ -16,10 +16,13 @@
 //`include "decode_pkg.sv" 
 //se deben de instanciar en el testbench estos pkg
 
+
+import instr_pkg::*;
+import decode_pkg::*;
+
 class scoreboard;
 
-    import instr_pkg::*;
-    import decode_pkg::*;
+    
 
     //struct para enviar datos con información relevante al monitor
     typedef struct {
