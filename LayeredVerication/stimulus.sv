@@ -33,6 +33,9 @@ class instruction_stimulus;
     randc b_instructions              b_instr;
     randc u_instructions              u_instr;
     randc j_instructions              j_instr;
+    randc fence_instructions          fence_instr;
+    randc csr_register_instructions   csr_reg_instr; 
+    randc ecall_break_instructions    ecall_break_instr; 
 
 
     // Randomizacion de los valores para algunas de las instrucciones
@@ -59,7 +62,7 @@ class instruction_stimulus;
     // // Evita que las instrucciones que escriben resultado usen x0 como registro destino.
     // Esto ayuda a que el resultado sea observable, porque x0 siempre vale cero.
     constraint rd_no_x0_c {
-        if (instr_type inside {R_TYPE, I_TYPE_ARITHMETIC, I_TYPE_SHIFT, I_TYPE_LOAD, I_TYPE_JUMP, U_TYPE, J_TYPE}) {
+        if (instr_type inside {R_TYPE, I_TYPE_ARITHMETIC, I_TYPE_SHIFT, I_TYPE_LOAD, I_TYPE_JUMP, U_TYPE, J_TYPE, FENCE_TYPE, CSR_REG_TYPE, CSR_IMM_TYPE,  ECALL_BREAK_TYPE}) {
             rd != 5'd0;
         }
     }
@@ -103,15 +106,19 @@ class instruction_stimulus;
     */
     constraint instr_type_soportadas_c {
         instr_type inside {
-            R_TYPE,                   
-            I_TYPE_ARITHMETIC      
-            //I_TYPE_SHIFT,            
-            //I_TYPE_LOAD,            
-            //I_TYPE_MEMORY_SYSTEM,    
-            //I_TYPE_JUMP,                         
-            //S_TYPE,                                  
-           // U_TYPE,                 
-           // J_TYPE                  
+            R_TYPE,
+            I_TYPE_ARITHMETIC
+            // I_TYPE_SHIFT,
+            // I_TYPE_LOAD,
+            // FENCE_TYPE,
+            // CSR_REG_TYPE,
+            // CSR_IMM_TYPE,
+            // ECALL_BREAK_TYPE,
+            // I_TYPE_JUMP,
+            // S_TYPE,
+            // B_TYPE,
+            // U_TYPE,
+            // J_TYPE
         };
     }
     
