@@ -26,7 +26,7 @@ class scoreboard;
             logic       [31:0]  res_ref;
             logic       [4:0]   rd;
             string              instr_name;
-            instr_set            instr_type;
+            instr_set           instr_type;
             logic       [31:0]  pc_ref;
             logic               branch; // 1 si se tomo el salto, 0 si no
             logic       [31:0]  pc_ref_next; // el valor de pc siguiente, util para ver si se cumple el salto 
