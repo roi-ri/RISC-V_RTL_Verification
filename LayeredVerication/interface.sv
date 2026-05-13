@@ -12,7 +12,7 @@
 *
 * =============================================================================
 */
-interface ifc_ricsv (
+interface ifc_riscv (
     input logic XCLK
 );
 
