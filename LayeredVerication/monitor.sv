@@ -15,11 +15,11 @@
 * ==================================================================================
 */
 
+// Se importa el paquete con las etiquetas de las instrucciones: 
+import instr_pkg::*;
+
 // Se crea la clase monitor para la simulación:
 class monitor;
-
-    // Se importa el paquete con las etiquetas de las instrucciones: 
-    import instr_pkg::*;
 
     // Se definen (instancian) las variables para el scoreboard y la interfaz.
     virtual ifc_riscv ifc_riscv_obj;            // Interfaz Virtual.
@@ -42,12 +42,22 @@ class monitor;
         logic         comparar;
         string        verificacion; 
 
+        // Se crean contadores para llevar un resumen de las verificaciones:
+        int unsigned contador_total;
+        int unsigned contador;
+
+        // Se inicializan los contadores:
+        contador_total = 0;
+        contador       = 0;
+
         // Se crea el forever para que se revise durante la simulación: 
         forever begin
             // Como el darkriscv empieza a procesar instrucciones hasta después:
             if (ifc_riscv_obj.res) begin
                 // Se imprime el mensaje que indica que se espera a que baje el reset:
+                $display("Monitor-checker:");
                 $display("Monitor-checker: darkriscv en reset, esperando que salga.");
+                $display("=====================================================");
 
                 // Se espera hasta que el reset baje (RES == 0):
                 wait(ifc_riscv_obj.res == 1'b0);
@@ -64,14 +74,14 @@ class monitor;
             // Se revisa si no se ha activado el reset:
             if (ifc_riscv_obj.res) begin
                 // Se imprime el mensaje que indica que se activó el reset:
+                $display("Monitor-checker:");
                 $display("Monitor-checker: Se activó reset en darkriscv.");
-
+                $display("=====================================================");
                 continue; 
-            end
+            end 
 
             // Se revisa que el scoreboard tenga datos para comparar: 
             if (scoreboard_obj.res_mem.size() == 0) begin
-                $display("Monitor-checker: No hay datos por comparar (scoreboard vacío).");
                 continue; 
             end 
             
@@ -83,7 +93,7 @@ class monitor;
             resul_teorico       = 32'd0;
             resul_experimental  = 32'd0;
             comparar            = 1'b0;
-            verificacion         = "Instrucción no implementada"; 
+            verificacion        = "Instrucción no implementada"; 
 
             // Casos para los diferentes tipos de instrucciones (aquí según sea, se carga el valor de interés): 
             // Faltan de implementar varios tipos aún como J o I_TYPE_MEMORY_SYSTEM, entre otros.
@@ -129,6 +139,59 @@ class monitor;
                     // Se revisa que sea un lui, por si se prueba otra innstrucción de este tipo que indique que no se ha implementado:
                     if (reference.instr_name == "LUI") begin
                         resul_experimental = ifc_riscv_obj.simm;            // La señal de interés es el SIMM de darkriscv.
+                        comparar = 1'b1;
+                        verificacion = "U_TYPE: Registro de resultado.";
+                    end else begin
+                        comparar = 1'b0;
+                        verificacion = "U_TYPE: Instrucción no implementada.";
+                    end 
+                end
+
+                default: begin
+                    comparar = 1'b0;
+                    verificacion = "Tipo de instrucción no reconocida (o no se ha implementado).";
+                end 
+
+            endcase
+
+            // Se revisa si se verificó o no la instrucción: 
+            if (comparar) begin
+                $display("Monitor-checker:");
+                $display("Instrucción: %s", reference.instr_name);
+                $display("Tipo: %s", reference.instr_type.name());
+                $display("Resultado teórico: %h", resul_teorico);
+                $display("Resultado experimental: %h", resul_experimental);
+                $display("En revisión: %s", verificacion);
+
+                // Se aumenta el contador total de instrucciones verificadas:
+                contador_total++;
+
+                // Se revisa si ambos resultados coinciden o no: 
+                if (resul_teorico !== resul_experimental) begin 
+                    $display("Verificación: Los resultados no coinciden (Falló).");
+                end else begin
+                    $display("Verificación: Los resultados coinciden (Pasó).");
+
+                    // Se aumenta el contador de instrucciones que pasaron:
+                    contador++;
+                end  
+
+                // Se muestra el resumen de verificaciones hasta el momento:
+                $display("Pasaron: %0d/%0d", contador, contador_total);
+                $display("=====================================================");
+            end else begin
+                $display("Monitor-checker:");
+                $display("Instrucción: %s", reference.instr_name);
+                $display("Tipo: %s", reference.instr_type.name());
+                $display("En revisión: %s", verificacion);
+                $display("=====================================================");
+            end 
+
+        end
+
+    endtask
+
+endclass            resul_experimental = ifc_riscv_obj.simm;            // La señal de interés es el SIMM de darkriscv.
                         comparar = 1'b1;
                         verificacion = "U_TYPE: Registro de resultado.";
                     end else begin
