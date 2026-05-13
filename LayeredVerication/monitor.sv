@@ -191,47 +191,4 @@ class monitor;
 
     endtask
 
-endclass            resul_experimental = ifc_riscv_obj.simm;            // La señal de interés es el SIMM de darkriscv.
-                        comparar = 1'b1;
-                        verificacion = "U_TYPE: Registro de resultado.";
-                    end else begin
-                        comparar = 1'b0;
-                        verificacion = "U_TYPE: Instrucción no implementada.";
-                    end 
-                end
-
-                default: begin
-                    comparar = 1'b0;
-                    verificacion = "Tipo de instrucción no reconocida (o no se ha implementado).";
-                end 
-
-            endcase
-
-            // Se revisa si se verificó o no la instrucción: 
-            if (comparar) begin
-                // 
-                $display("Monitor-checker:");
-                $display("Instrucción: %s", reference.instr_name);
-                $display("Tipo: %0d", reference.instr_type);
-                $display("Resultado teórico: %h", resul_teorico);
-                $display("Resultado experimental: %h", resul_experimental);
-                $display("Estado de la revisión: %s",verificacion);
-
-                 // Se revisa si ambos resultados coinciden o no: 
-                if (resul_teorico !== resul_experimental) begin 
-                    $display("Verificación: Los resultados no coinciden (Falló).");
-                end else begin
-                    $display("Verificación: Los resultados coinciden (Pasó).");
-                end     
-            end else begin
-                $display("Monitor-checker:");
-                $display("Instrucción: %s", reference.instr_name);
-                $display("Tipo: %0d", reference.instr_type);
-                $display("Estado de la revisión: %s",verificacion);
-            end 
-
-        end
-
-    endtask
-
-endclass
+endclass        
