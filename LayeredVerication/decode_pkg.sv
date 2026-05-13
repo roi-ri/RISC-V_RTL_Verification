@@ -18,7 +18,7 @@ package decode_pkg;
 
 
     //función que a partir del opcode [6:0] retorna el tipo de instrucción como el enum intr_set definido en instr_pkg.
-    function intr_set get_instr_type(input logic [31:0] instr);
+    function instr_set get_instr_type(input logic [31:0] instr);
         logic [6:0] opcode;
         logic [2:0] funct3;
         opcode = instr[6:0];
