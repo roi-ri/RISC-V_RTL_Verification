@@ -79,7 +79,10 @@ class scoreboard;
                 reference.pc_ref_next   = '0;
                 pc_4                    =  0;
                 reference.branch        = '0;
-                res_mem.delete(); //se borra el queue 
+                res_mem.delete(); //se borra el queue
+                for (int i = 0; i < 32; i++) begin
+                  reg_mem[i]		    = '0;
+           		end 
                 return;
             end 
             else begin
