@@ -1,0 +1,12 @@
+`include "instr_pkg.sv"
+ import instr_pkg::*;
+`include "decode_pkg.sv"
+ import decode_pkg::*;
+`include "interface.sv"
+`include "stimulus.sv"
+`include "scoreboard.sv"
+`include "driver.sv"
+`include "monitor.sv"
+`include "env.sv"
+`include "test.sv"
+`include "top.sv"
