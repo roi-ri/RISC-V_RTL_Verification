@@ -192,26 +192,7 @@ package decode_pkg;
             default: return "UNKNOWN_OPCODE";
  
         endcase
-    endfunction
- 
-    
-    /*
-    * Esta parte se utiliza para probar que funcione correctamente el
-    * decode_pkg
-    * Para usarlo: decode_pkg::print_decoded_instr(instr_bits);
-    */
-   /*
-    task print_decoded_instr(input logic [31:0] instr);
-        $display("----------------------------------------------------");
-        $display("Instruccion [31:0] : %08h  (%032b)", instr, instr);
-        $display("  opcode  [6:0]    : %07b", instr[6:0]);
-        $display("  funct3  [14:12]  : %03b",  instr[14:12]);
-        $display("  funct7  [31:25]  : %07b", instr[31:25]);
-        $display("  Tipo             : %s",   get_instr_type(instr).name());
-        $display("  Instruccion      : %s",   get_instr_name(instr));
-        $display("----------------------------------------------------");
-    endtask
-    */ 
+    endfunction 
  
 endpackage
  
