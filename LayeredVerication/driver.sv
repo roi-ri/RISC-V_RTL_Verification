@@ -360,6 +360,8 @@ class riscv_driver;
             
         endcase 
         $root.top.dut.MEM[addr] = instr_wrd;
+        scoreboard_obj.ref_model(instr_wrd,ifc_riscv_obj.res); 
+
     endtask
 
 
