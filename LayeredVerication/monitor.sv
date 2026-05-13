@@ -42,15 +42,32 @@ class monitor;
         logic         comparar;
         string        verificacion; 
 
+        logic         primera_iteracion;            // Se crea variable para controlar la primera iteración.
+
         // Se crea el forever para que se revise durante la simulación: 
         forever begin
             // Como el darkriscv empieza a procesar instrucciones hasta después:
+            if (ifc_riscv_obj.res) begin
+                // Se pone en 1 la variable de primera iteración:
+                primera_iteracion = 1'b1;
 
+                // Se imprime el mensaje que indica que se espera a que baje el reset:
+                $display("Monitor-checker: darkriscv en reset, esperando que salga.");
+
+                // Se espera hasta que el reset baje (RES == 0):
+                wait(ifc_riscv_obj.res == 1'b0);
+
+                // Se esperan 2 ciclos que dura en cargar la instrucción (primera iteración):
+                if (primera_iteracion) begin
+                    repeat (2) @(posedge ifc_riscv_obj.clk);
+                    primera_iteracion = 1'b0;
+                end 
+
+                continue;
+            end 
+            
             @(posedge ifc_riscv_obj.clk);     // Se espera que se cargue la instrucción/valor.
             @(negedge ifc_riscv_obj.clk);     // Se espera al negedge después del posedge, para asegurar estabilidad.
-            
-
-
             
             // Se revisa que el scoreboard tenga datos para comparar: 
             if (scoreboard_obj.res_mem.size() == 0) begin
