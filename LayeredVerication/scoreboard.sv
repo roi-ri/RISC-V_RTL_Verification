@@ -15,14 +15,10 @@
 //`include "instr_pkg.sv"
 //`include "decode_pkg.sv" 
 //se deben de instanciar en el testbench estos pkg
-
-
 import instr_pkg::*;
 import decode_pkg::*;
 
 class scoreboard;
-
-    
 
     //struct para enviar datos con información relevante al monitor
     typedef struct {
@@ -338,11 +334,50 @@ class scoreboard;
                     end 
 
 
-                    I_TYPE_MEMORY_SYSTEM: begin 
-                        //falta implementar 
+                    FENCE_TYPE: begin 
+                        // FENCE y FENCE.I
+                        // Por ahora no modifican registros en el scoreboard.
+
+                        reference.rd      = 5'd0;
+                        reference.res_ref = 32'd0;
 
                         pc_4 = 1;
-                    end // fin case instruccion I_TYPE_MEMORY_SYSTEM
+                    end // fin case FENCE_TYPE
+
+
+                    CSR_REG_TYPE: begin
+                        // CSRRW, CSRRS, CSRRC
+                        // Falta implementar modelo real de CSR.
+                        // Por ahora se deja para que compile y avance PC.
+
+                        reference.rd      = instr[11:7];
+                        reference.res_ref = 32'd0;
+
+                        pc_4 = 1;
+                    end // fin case CSR_REG_TYPE
+
+
+                    CSR_IMM_TYPE: begin
+                        // CSRRWI, CSRRSI, CSRRCI
+                        // Falta implementar modelo real de CSR inmediato.
+                        // Por ahora se deja para que compile y avance PC.
+
+                        reference.rd      = instr[11:7];
+                        reference.res_ref = 32'd0;
+
+                        pc_4 = 1;
+                    end // fin case CSR_IMM_TYPE
+
+
+                    ECALL_BREAK_TYPE: begin
+                        // ECALL y EBREAK
+                        // Por ahora no modifican registros en el scoreboard.
+
+                        reference.rd      = 5'd0;
+                        reference.res_ref = 32'd0;
+
+                        pc_4 = 1;
+                    end // fin case ECALL_BREAK_TYPE
 
 
                     S_TYPE: begin 
