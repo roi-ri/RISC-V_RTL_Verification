@@ -24,6 +24,17 @@ interface ifc_riscv (
     logic [3:0] LED;
     logic [3:0] DEBUG;
 
+    // Señales internas que son de interés para el monitor:
+    logic        clk;
+    logic        res;
+
+    logic [31:0] rmdata;
+    logic [31:0] nxpc2;
+    logic [31:0] simm;
+
+    // Se usa el reloj externo como reloj del monitor:
+    assign clk = XCLK;
+
 endinterface
 
 
