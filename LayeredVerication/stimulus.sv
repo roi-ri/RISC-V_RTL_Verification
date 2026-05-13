@@ -66,6 +66,15 @@ class instruction_stimulus;
         }
     }
 
+    //Limita los registros al rango x0-x15, esto con el fin de generar
+    //instrucciones con x16-x31, debido a que el darkriscv solamente tiene 16
+    //registros 
+
+    constraint registros_x0_x15_c {
+            rs1 inside {[5'd0:5'd15]};
+            rs2 inside {[5'd0:5'd15]};
+            rd inside  {[5'd0:5'd15]};
+        }
 
     constraint shift_c {
         if (instr_type == I_TYPE_SHIFT) {
