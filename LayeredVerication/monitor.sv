@@ -26,7 +26,7 @@ class monitor;
     scoreboard scoreboard_obj;                  // Scoreboard. 
 
     // Se dan valores a las variables cuando se crea el objeto de monitor:
-    function new(virtual ifc_risvc ifc_riscv_obj, scoreboard scoreboard_obj);
+    function new(virtual ifc_riscv ifc_riscv_obj, scoreboard scoreboard_obj);
         this.ifc_riscv_obj = ifc_riscv_obj;
         this.scoreboard_obj = scoreboard_obj;
     endfunction
@@ -42,8 +42,6 @@ class monitor;
         logic         comparar;
         string        verificacion; 
 
-        logic         primera_iteracion;            // Se crea variable para controlar la primera iteración.
-
         // Se crea el forever para que se revise durante la simulación: 
         forever begin
             // Como el darkriscv empieza a procesar instrucciones hasta después:
@@ -57,18 +55,23 @@ class monitor;
                 // Se espera hasta que el reset baje (RES == 0):
                 wait(ifc_riscv_obj.res == 1'b0);
 
-                // Se esperan 2 ciclos que dura en cargar la instrucción (primera iteración):
-                if (primera_iteracion) begin
-                    repeat (2) @(posedge ifc_riscv_obj.clk);
-                    primera_iteracion = 1'b0;
-                end 
-
+                // Se esperan dos ciclos de reloj para que aparezca la primera instrucción:
+                repeat (2) @(posedge ifc_riscv_obj.clk);
+                
                 continue;
             end 
             
             @(posedge ifc_riscv_obj.clk);     // Se espera que se cargue la instrucción/valor.
             @(negedge ifc_riscv_obj.clk);     // Se espera al negedge después del posedge, para asegurar estabilidad.
             
+            // Se revisa si no se ha activado el reset:
+            if (ifc_riscv_obj.res) begin
+                // Se imprime el mensaje que indica que se activó el reset:
+                $display("Monitor-checker: Se activó reset en darkriscv.");
+
+                continue; 
+            end
+
             // Se revisa que el scoreboard tenga datos para comparar: 
             if (scoreboard_obj.res_mem.size() == 0) begin
                 $display("Monitor-checker: No hay datos por comparar (scoreboard vacío).");
@@ -94,7 +97,7 @@ class monitor;
                     resul_teorico = reference.res_ref;
                     resul_experimental = ifc_riscv_obj.rmdata;              // La señal de interés es el RMDATA de darkriscv.
                     comparar = 1'b1;
-                    verificacion = "R_TYPE: Registro de resultado."
+                    verificacion = "R_TYPE: Registro de resultado.";
                 end 
 
                 I_TYPE_ARITHMETIC: begin
@@ -102,7 +105,7 @@ class monitor;
                     resul_teorico = reference.res_ref;
                     resul_experimental = ifc_riscv_obj.rmdata;              // La señal de interés es el RMDATA de darkriscv.
                     comparar = 1'b1;
-                    verificacion = "I_TYPE_ARITHMETIC: Registro de resultado."
+                    verificacion = "I_TYPE_ARITHMETIC: Registro de resultado.";
                 end
 
                 I_TYPE_SHIFT: begin
@@ -110,7 +113,7 @@ class monitor;
                     resul_teorico = reference.res_ref;
                     resul_experimental = ifc_riscv_obj.rmdata;              // La señal de interés es el RMDATA de darkriscv.
                     comparar = 1'b1;
-                    verificacion = "I_TYPE_SHIFT: Registro de resultado."
+                    verificacion = "I_TYPE_SHIFT: Registro de resultado.";
                 end
 
                 B_TYPE: begin
@@ -118,7 +121,7 @@ class monitor;
                     resul_teorico = reference.pc_ref_next;
                     resul_experimental = ifc_riscv_obj.nxpc2;               // La señal de interés es el NXPC2 de darkriscv.
                     comparar = 1'b1;
-                    verificacion = "B_TYPE: Dirección de la próxima instrucción, salto."
+                    verificacion = "B_TYPE: Dirección de la próxima instrucción, salto.";
                 end
 
                 // Para esta sólo se implementó lui (eso en el scoreboard y por el momento).
@@ -130,16 +133,16 @@ class monitor;
                     if (reference.instr_name == "LUI") begin
                         resul_experimental = ifc_riscv_obj.simm;            // La señal de interés es el SIMM de darkriscv.
                         comparar = 1'b1;
-                        verificacion = "U_TYPE: Registro de resultado."
+                        verificacion = "U_TYPE: Registro de resultado.";
                     end else begin
                         comparar = 1'b0;
-                        verficacion = "U_TYPE: Instrucción no implementada."
+                        verficacion = "U_TYPE: Instrucción no implementada.";
                     end 
                 end
 
                 default: begin
                     comparar = 1'b0;
-                    instruccion = "Tipo de instrucción no reconocida (o no se ha implementado)."
+                    verificacion = "Tipo de instrucción no reconocida (o no se ha implementado).";
                 end 
 
             endcase
