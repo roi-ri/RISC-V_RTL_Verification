@@ -1,4 +1,4 @@
-/*
+     /*
 * =============================================================================
 *
 * - File        : driver.sv (UVM)
@@ -45,14 +45,12 @@ function new(string name = "DriverOBJ", uvm_component parent = null);
         //Se define una secuencia        
         super.run_phase(phase);
         phase.raise_objection(this);
-        initialize_interface();
-        phase.drop_objection(this);
         forever begin
-            `uvm_info(get_type_name(), "Esperando dato del sequencer", UVM_MEDIUM)
+            `uvm_info(get_type_name(), "Esperando dato del sequencer", UVM_MEDIUM);
 
             seq_item_port.get_next_item(my_sequence_item_obj);
 
-            `uvm_info(get_type_name(), "Objeto recibido del sequencer:", UVM_MEDIUM)
+            `uvm_info(get_type_name(), "Objeto recibido del sequencer:", UVM_MEDIUM);
             my_sequence_item_obj.print();
 
             create_write_instr(my_sequence_item_obj);
@@ -460,3 +458,4 @@ $root.top.dut.MEM[i] = 32'h00000013; // Esperar a ver como lo va a llamar luis, 
     endtask
 
 endclass
+

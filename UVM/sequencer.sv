@@ -31,17 +31,15 @@ class my_sequence_item
     int unsigned addr;
 
     `uvm_object_utils_begin(my_sequence_item)
-        `uvm_field_enum(instr_set, instr_type, UVM_ALL_ON)
-
-        `uvm_field_int(r_instr, UVM_ALL_ON)
-        `uvm_field_int(i_arith_instr, UVM_ALL_ON)
-        `uvm_field_int(i_shift_instr, UVM_ALL_ON)
-        `uvm_field_int(i_load_instr, UVM_ALL_ON)
-        `uvm_field_int(i_jump_instr, UVM_ALL_ON)
-        `uvm_field_int(s_instr, UVM_ALL_ON)
-        `uvm_field_int(b_instr, UVM_ALL_ON)
-        `uvm_field_int(u_instr, UVM_ALL_ON)
-        `uvm_field_int(j_instr, UVM_ALL_ON)
+        `uvm_field_enum(r_instructions, r_instr, UVM_ALL_ON)
+        `uvm_field_enum(i_arithmetic_instructions, i_arith_instr, UVM_ALL_ON)
+        `uvm_field_enum(i_shift_instructions, i_shift_instr, UVM_ALL_ON)
+        `uvm_field_enum(i_loads_instructions, i_load_instr, UVM_ALL_ON)
+        `uvm_field_enum(i_jump_instructions, i_jump_instr, UVM_ALL_ON)
+        `uvm_field_enum(s_instructions, s_instr, UVM_ALL_ON)
+        `uvm_field_enum(b_instructions, b_instr, UVM_ALL_ON)
+        `uvm_field_enum(u_instructions, u_instr, UVM_ALL_ON)
+        `uvm_field_enum(j_instructions, j_instr, UVM_ALL_ON)
 
         `uvm_field_int(rd, UVM_ALL_ON)
         `uvm_field_int(rs1, UVM_ALL_ON)
@@ -111,8 +109,8 @@ class my_sequence_item
             I_TYPE_SHIFT,
             I_TYPE_LOAD,
             I_TYPE_JUMP,
-            S_TYPE,
-            B_TYPE,
+            //S_TYPE,
+            //B_TYPE,
             U_TYPE,
             J_TYPE
         };
@@ -134,3 +132,4 @@ class sequencer extends uvm_sequencer #(my_sequence_item);
         super.new(name, parent);
     endfunction
 endclass
+
