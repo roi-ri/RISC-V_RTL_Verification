@@ -27,7 +27,7 @@ class base_sequence extends uvm_sequence #(my_sequence_item);
     task body();
         my_sequence_item my_sequence_item_obj;
 
-        cantidad_instrucciones = $size($root.top.dut.MEM) / 4;
+        cantidad_instrucciones = $size($root.top.dut.MEM);
 
         for (int i = 0; i < cantidad_instrucciones; i++) begin
             my_sequence_item_obj = my_sequence_item::type_id::create("My Sequence Item Object");
