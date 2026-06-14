@@ -13,10 +13,14 @@
 *
 * =============================================================================
 */
+
 import instr_pkg::*; 
+
 class my_sequence_item 
     extends uvm_sequence_item; 
+
     randc instr_set                   instr_type; 
+
     // Randomizacion de cada uno de los tipos de instrucciones
     randc r_instructions              r_instr;      
     randc i_arithmetic_instructions   i_arith_instr;
@@ -43,9 +47,21 @@ class my_sequence_item
     rand logic [12:0] imm_b;
     rand logic [19:0] imm_u;
     rand logic [20:0] imm_j;
+
     int unsigned addr;
 
+    //
+    logic [31:0] instr;
+
+    //
+    logic rst;
+
+
     `uvm_object_utils_begin(my_sequence_item)
+
+        //
+        `uvm_field_enum(instr_set, instr_type, UVM_ALL_ON)
+
         `uvm_field_enum(r_instructions, r_instr, UVM_ALL_ON)
         `uvm_field_enum(i_arithmetic_instructions, i_arith_instr, UVM_ALL_ON)
         `uvm_field_enum(i_shift_instructions, i_shift_instr, UVM_ALL_ON)
@@ -68,24 +84,33 @@ class my_sequence_item
         `uvm_field_int(imm_j, UVM_ALL_ON)
 
         `uvm_field_int(addr, UVM_ALL_ON)
+
+        //
+        `uvm_field_int(instr, UVM_ALL_ON)
+
+        //
+        `uvm_field_int(rst, UVM_ALL_ON)
+
     `uvm_object_utils_end
 
 
-     //Limita los registros al rango x0-x15, esto con el fin de generar
+    //Limita los registros al rango x0-x15, esto con el fin de generar
     //instrucciones con x16-x31, debido a que el darkriscv solamente tiene 16
     //registros 
-
     constraint registros_x0_x15_c {
-            rs1 inside {[5'd0:5'd15]};
-            rs2 inside {[5'd0:5'd15]};
-            rd inside  {[5'd0:5'd15]};
-        }
+        rs1 inside {[5'd0:5'd15]};
+        rs2 inside {[5'd0:5'd15]};
+        rd  inside {[5'd0:5'd15]};
+    }
+
 
     constraint shift_c {
         if (instr_type == I_TYPE_SHIFT) {
             shamt inside {[0:31]};
         }
     }
+
+
     // Los branches y tambien JAL usan inmediatos alineados a 2 bytes por eso el bit cero
     // debe de ser 0 
     constraint branch_alignment_c {
@@ -94,15 +119,18 @@ class my_sequence_item
         }
     }
 
+
     constraint jal_alignment_c {
         if (instr_type == J_TYPE) {
             imm_j[0] == 1'b0;
         }
     }
     
+
     // Alineamiento para los load 
     constraint load_alignment_c {
         if (instr_type == I_TYPE_LOAD) {
+
             if (i_load_instr == LH || i_load_instr == LHU) {
                 imm_i[0] == 1'b0;
             }
@@ -110,8 +138,10 @@ class my_sequence_item
             if (i_load_instr == LW) {
                 imm_i[1:0] == 2'b00;
             }
+
         }
     }
+
 
     /* para agregar o quitar familias no implementadas en el driver 
     // Limitacion momentanea de las instrucciones para poder ir implementando
@@ -126,19 +156,22 @@ class my_sequence_item
             I_TYPE_JUMP,
             //S_TYPE,
             //B_TYPE,
-            U_TYPE,
-            J_TYPE
+            U_TYPE
+            //J_TYPE
         };
     }
 
-     function new(string name = "My_sequence_itemOBJ"); //No parent
+
+    function new(string name = "My_sequence_itemOBJ"); //No parent
         super.new(name); //No parent
+        instr = 32'd0;
+        rst = 1'b0;
     endfunction
+
 endclass
 
-
-
 class sequencer extends uvm_sequencer #(my_sequence_item);
+
     `uvm_component_utils(sequencer)
 
     virtual ifc_riscv ifc_riscv_obj;
@@ -146,4 +179,5 @@ class sequencer extends uvm_sequencer #(my_sequence_item);
     function new(string name = "SequencerOBJ", uvm_component parent = null);
         super.new(name, parent);
     endfunction
+
 endclass
