@@ -36,23 +36,9 @@ package decode_pkg;
             end
             7'b0000011: return I_TYPE_LOAD;
             7'b1100111: return I_TYPE_JUMP;
-            7'b0001111: return FENCE_TYPE; // FENCE / FENCE.I
-            7'b1110011: begin
-                case (funct3)
-                    3'b000: return ECALL_BREAK_TYPE;
-                    3'b001: return CSR_REG_TYPE;
-                    3'b010: return CSR_REG_TYPE;
-                    3'b011: return CSR_REG_TYPE;
-                    3'b101: return CSR_IMM_TYPE;
-                    3'b110: return CSR_IMM_TYPE;
-                    3'b111: return CSR_IMM_TYPE;
-                    default: return ECALL_BREAK_TYPE;
-                endcase
-            end
             7'b0100011: return S_TYPE;
             7'b1100011: return B_TYPE;
             7'b0110111: return U_TYPE;               // LUI
-            7'b0010111: return U_TYPE;               // AUIPC
             7'b1101111: return J_TYPE;
             default:    return R_TYPE;               // valor por defecto
         endcase
@@ -195,7 +181,7 @@ package decode_pkg;
  
             // U-TYPE -> LUI / AUIPC
             7'b0110111: return "LUI";
-            7'b0010111: return "AUIPC";
+
  
             // J-TYPE : JAL 
             7'b1101111: return "JAL";
