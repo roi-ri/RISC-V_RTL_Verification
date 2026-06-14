@@ -1,13 +1,18 @@
-     /*
+/*
 * =============================================================================
 *
-* - File        : driver.sv (UVM)
+* - File        : driver.sv
 * - Autor       : Rodrigo Sanchez Araya (C37259)
 * - Curso       : Verificación Funcional del Diseño de Circuitos Integrados
-* - Fecha       : 
-* - Descripción : 
-* =============================================================================
+* - Fecha       : 5/12/2026
+* - Descripción :Driver UVM encargado de recibir elementos de secuencia,
+*                 construir la palabra de instrucción RISC-V correspondiente
+*                 según su formato y escribirla en la memoria interna del DUT.
+*                 Utiliza la interfaz virtual para conectarse con el ambiente
+*                 de verificación y el paquete de instrucciones para codificar
+*                 los campos de cada operación generada.
 *
+* =============================================================================
 */
 import instr_pkg::*;
 class driver extends uvm_driver #(my_sequence_item);
@@ -458,4 +463,3 @@ $root.top.dut.MEM[i] = 32'h00000013; // Esperar a ver como lo va a llamar luis, 
     endtask
 
 endclass
-

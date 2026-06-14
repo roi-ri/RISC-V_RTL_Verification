@@ -1,3 +1,18 @@
+/*
+* =============================================================================
+*
+* - File        : sequencer.sv
+* - Autor       : Rodrigo Sanchez Araya (C37259)
+* - Curso       : Verificación Funcional del Diseño de Circuitos Integrados
+* - Fecha       : 5/12/2026
+* - Descripción :Define el item de secuencia y el sequencer del ambiente UVM.
+*                 El item contiene la randomización de familias de instrucciones,
+*                 operaciones, registros e inmediatos, junto con restricciones de
+*                 alineamiento y rango compatibles con el DUT darksocv. El
+*                 sequencer entrega estos items al driver.
+*
+* =============================================================================
+*/
 import instr_pkg::*; 
 class my_sequence_item 
     extends uvm_sequence_item; 
@@ -132,4 +147,3 @@ class sequencer extends uvm_sequencer #(my_sequence_item);
         super.new(name, parent);
     endfunction
 endclass
-

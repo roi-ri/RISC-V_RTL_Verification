@@ -1,3 +1,18 @@
+/*
+* =============================================================================
+*
+* - File        : sequence.sv
+* - Autor       : Rodrigo Sanchez Araya (C37259)
+* - Curso       : Verificación Funcional del Diseño de Circuitos Integrados
+* - Fecha       : 5/12/2026
+* - Descripción :Secuencia base UVM que genera instrucciones aleatorias para
+*                 llenar la memoria interna del DUT. Calcula la cantidad de
+*                 instrucciones a partir del tamaño de la memoria, crea elementos
+*                 de secuencia, los randomiza y asigna una dirección incremental
+*                 antes de enviarlos al driver.
+*
+* =============================================================================
+*/
 class base_sequence extends uvm_sequence #(my_sequence_item);
 
     `uvm_object_utils(base_sequence)

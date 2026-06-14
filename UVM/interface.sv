@@ -12,9 +12,7 @@
 *
 * =============================================================================
 */
-interface ifc_riscv (
-    input logic XCLK
-);
+interface ifc_riscv (input logic XCLK);
 
     logic XRES;
 
@@ -32,7 +30,32 @@ interface ifc_riscv (
     logic [31:0] nxpc2;
     logic [31:0] simm;
 
-    // Se usa el reloj externo como reloj del monitor:
+    // Señales internas - Registros para revisar escritura - unpacked array:
+    logic [31:0] regs [0:15];
+
+    // Señales que representan la instrucción procesada en el ciclo actual:
+    logic        commit_valid;
+    logic [31:0] commit_instr;
+    logic [31:0] commit_pc;
+
+    // Señales relacionadas con el registro destino:
+    logic        commit_writes_rd;
+    logic [4:0]  commit_rd;
+
+    // Señales registradas para información adicional:
+    logic [31:0] commit_alu_result;
+    logic [31:0] commit_simm;
+
+    // Se usa el reloj externo como reloj del darkriscv:
     assign clk = XCLK;
 
+    // Control desde el driver al monitor de instrucciones:
+    logic        mem_loaded;
+    int unsigned instr_count;
+
 endinterface
+
+
+
+
+

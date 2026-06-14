@@ -1,18 +1,17 @@
- /*
+/*
 * =============================================================================
 *
 * - File        : instr_pkg.sv
 * - Autor       : Rodrigo Sanchez Araya (C37259)
 * - Curso       : Verificación Funcional del Diseño de Circuitos Integrados
 * - Fecha       : 5/12/2026
-* - Descripción : Paquete de tipos para el generador de instrucciones RISC-V.
+* - Descripción :Paquete de tipos para el generador de instrucciones RISC-V.
 *                 Agrupa enums para seleccionar familias de instrucciones
 *                 (R, I, S, B, U, J, etc.) y operaciones específicas, junto con
 *                 structs packed que respetan la posición de bits de cada formato
 *                 de instrucción. El driver utiliza estas definiciones para llenar
 *                 los campos correspondientes, formar la palabra de instrucción de
 *                 32 bits y escribirla en la memoria interna del DUT.
-
 *
 * =============================================================================
 */
@@ -167,4 +166,3 @@ typedef struct packed{
 }j_instr_t; 
 
 endpackage 
-
