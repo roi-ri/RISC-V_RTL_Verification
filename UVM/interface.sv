@@ -1,17 +1,20 @@
 /*
-* =============================================================================
+* ===================================================================================
 *
 * - File        : interface.sv
-* - Autor       : Rodrigo Sanchez Araya (C37259)
-* - Curso       : Verificación Funcional del Diseño de Circuitos Integrados
-* - Fecha       : 5/12/2026
-* - Descripción :Interfaz que agrupa las señales externas del DUT darksocv
+* - Autor       : Rodrigo Sanchez Araya (C37259) - Luis Diego Ramírez Leitón (C36421)
+* - Curso       : IE0621 - Verificación Funcional del Diseño de Circuitos Integrados
+*                 Universidad de Costa Rica.
+* - Fecha       : 13/6/2026
+*
+* - Descripción : Interfaz que agrupa las señales externas del DUT darksocv
 *                 utilizadas por el ambiente de verificación: reloj, reset, UART,
 *                 LEDs y DEBUG. Sirve como punto de conexión entre el testbench
-*                 y los componentes de verificación. 
+*                 y los componentes de verificación.
 *
-* =============================================================================
+* ==================================================================================
 */
+
 interface ifc_riscv (input logic XCLK);
 
     logic XRES;
@@ -54,4 +57,3 @@ interface ifc_riscv (input logic XCLK);
     int unsigned instr_count;
 
 endinterface
-
