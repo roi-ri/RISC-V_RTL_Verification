@@ -67,7 +67,8 @@ typedef enum logic[3:0]{
 }b_instructions; 
 
 typedef enum logic[3:0]{
-    LUI, AUIPC
+    LUI, 
+    //AUIPC
 }u_instructions; 
 
 typedef enum logic[3:0]{
