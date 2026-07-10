@@ -1,21 +1,25 @@
 /*
-*
 * =============================================================================
 *
 * - File        : i_type_model.sv
-* - Autor       : Brandon Jiménez Campos (C33972)
+* - Autor       : Luis Diego Ramírez Leitón (C36421), Rodrigo Sánchez Araya (C37259), Brandon Jiménez Campos (C33972)
 * - Curso       : Verificación Funcional del Diseño de Circuitos Integrados
-* - Fecha       :
-* - Descripción : Modelo de referencia encargado de calcular el resultado
-*                 esperado para las instrucciones I-Type del procesador RISC-V.
+* - Fecha       : 09-07-2026
+* - Descripción : Modelo de referencia para instrucciones tipo I. Calcula los
+*                 resultados esperados de operaciones aritméticas, shifts,
+*                 loads y saltos indirectos usados por el scoreboard.
 *
 * =============================================================================
 */
+
+// Se crea el paquete con el modelo de referencia para instrucciones tipo I:
 package i_type_model;
 
+    // Se importan los paquetes necesarios para decodificar y transportar resultados:
     import instr_pkg::*;
     import model_values::*;
 
+    // Función para calcular la referencia esperada de una instrucción tipo I:
 	function automatic result i_type_model_reference(
     	input result       current_reference,
     	input logic [31:0] instr,
@@ -39,7 +43,10 @@ package i_type_model;
 
         case (reference.instr_type)
 
+            // ========================================================
             // I-TYPE ARITHMETIC
+            // ========================================================
+
             I_TYPE_ARITHMETIC: begin
 
                 reference.imm = {
@@ -85,7 +92,9 @@ package i_type_model;
 
             end
 
+            // ========================================================
             // I-TYPE SHIFT
+            // ========================================================
 
             I_TYPE_SHIFT: begin
 
@@ -117,11 +126,13 @@ package i_type_model;
 
             end
 
-
+            // ========================================================
             // I-TYPE LOAD : se implementó en el scoreboard
+            // ========================================================
 
-
+            // ========================================================
             // I-TYPE JUMP: JALR
+            // ========================================================
 
             I_TYPE_JUMP: begin
 
@@ -148,7 +159,6 @@ package i_type_model;
                 endcase
 
             end
-
 
             default: begin
 

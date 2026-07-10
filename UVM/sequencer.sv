@@ -2,7 +2,7 @@
 * =============================================================================
 *
 * - File        : sequencer.sv
-* - Autor       : Rodrigo Sanchez Araya (C37259)
+* - Autor       : Rodrigo Sánchez Araya (C37259)
 * - Curso       : Verificación Funcional del Diseño de Circuitos Integrados
 * - Fecha       : 5/12/2026
 * - Descripción :Define el item de secuencia y el sequencer del ambiente UVM.
@@ -32,7 +32,6 @@ class my_sequence_item
     randc u_instructions              u_instr;      
     randc j_instructions              j_instr;      
 
-
     // Randomizacion de los valores para algunas de las instrucciones
     // (cuando corresponda) 
     rand logic [4:0] rd;
@@ -40,7 +39,7 @@ class my_sequence_item
     rand logic [4:0] rs2;
     rand logic [4:0] shamt; 
 
-    // Inmediatos separados por formato para evitar despues estar viendo
+    // Inmediatos separados por formato para evitar después estar viendo
     // temas de tamanio
     rand logic [11:0] imm_i;
     rand logic [11:0] imm_s;
@@ -49,13 +48,13 @@ class my_sequence_item
     rand logic [20:0] imm_j;
 
     int unsigned addr;
+    bit last_item;
 
     //
     logic [31:0] instr;
 
     //
     logic rst;
-
 
     `uvm_object_utils_begin(my_sequence_item)
 
@@ -84,6 +83,7 @@ class my_sequence_item
         `uvm_field_int(imm_j, UVM_ALL_ON)
 
         `uvm_field_int(addr, UVM_ALL_ON)
+        `uvm_field_int(last_item, UVM_ALL_ON)
 
         //
         `uvm_field_int(instr, UVM_ALL_ON)
@@ -92,7 +92,6 @@ class my_sequence_item
         `uvm_field_int(rst, UVM_ALL_ON)
 
     `uvm_object_utils_end
-
 
     //Limita los registros al rango x0-x15, esto con el fin de generar
     //instrucciones con x16-x31, debido a que el darkriscv solamente tiene 16
@@ -103,15 +102,13 @@ class my_sequence_item
         rd  inside {[5'd0:5'd15]};
     }
 
-
     constraint shift_c {
         if (instr_type == I_TYPE_SHIFT) {
             shamt inside {[0:31]};
         }
     }
 
-
-    // Los branches y tambien JAL usan inmediatos alineados a 2 bytes por eso el bit cero
+    // Los branches y también JAL usan inmediatos alineados a 2 bytes por eso el bit cero
     // debe de ser 0 
     constraint branch_alignment_c {
         if (instr_type == B_TYPE) {
@@ -119,13 +116,11 @@ class my_sequence_item
         }
     }
 
-
     constraint jal_alignment_c {
         if (instr_type == J_TYPE) {
             imm_j[0] == 1'b0;
         }
     }
-    
 
     // Alineamiento para los load 
     constraint load_alignment_c {
@@ -141,7 +136,6 @@ class my_sequence_item
 
         }
     }
-
 
     /* para agregar o quitar familias no implementadas en el driver 
     // Limitacion momentanea de las instrucciones para poder ir implementando
@@ -161,11 +155,11 @@ class my_sequence_item
         };
     }
 
-
     function new(string name = "My_sequence_itemOBJ"); //No parent
         super.new(name); //No parent
         instr = 32'd0;
         rst = 1'b0;
+        last_item = 1'b0;
     endfunction
 
 endclass

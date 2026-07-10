@@ -34,7 +34,7 @@ class agent_instruction extends uvm_agent;
     // En build phase se crean las instancias de los componentes:
     virtual function void build_phase(uvm_phase phase);
       	super.build_phase(phase);
-		
+
       	// Se crea el monitor de instrucciones mediante la fábrica:
       	monitor_instruction_obj = monitor_instruction::type_id::create("monitor_instruction_obj", this);
 

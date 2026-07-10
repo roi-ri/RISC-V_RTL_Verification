@@ -2,7 +2,7 @@
 * =============================================================================
 *
 * - File        : instr_pkg.sv
-* - Autor       : Rodrigo Sanchez Araya (C37259)
+* - Autor       : Rodrigo Sánchez Araya (C37259)
 * - Curso       : Verificación Funcional del Diseño de Circuitos Integrados
 * - Fecha       : 5/12/2026
 * - Descripción :Paquete de tipos para el generador de instrucciones RISC-V.
@@ -17,7 +17,7 @@
 */
 package  instr_pkg; 
 
-//Enum con los tipos de instruccion disponibles y con la asignacion de un codigo para poder utilizarlos dentro de los constrains para definir sobre cuales datos van a variar las randomizaciones
+//Enum con los tipos de instrucción disponibles y con la asignacion de un código para poder utilizarlos dentro de los constrains para definir sobre cuales datos van a variar las randomizaciones
 
 typedef enum logic [3:0] {
     R_TYPE                  = 4'b0001, 
@@ -31,10 +31,8 @@ typedef enum logic [3:0] {
     J_TYPE                  = 4'b1101
 } instr_set;
 
-
-
 /*
-* -> hacer un tipo case en otro modulo para cada tipo de instruccion instruccion y dentro
+* -> hacer un tipo case en otro módulo para cada tipo de instrucción instrucción y dentro
 *  de esos buscar las instrucciones y hardcodear el strig para ir a buscar
 *  en los structs los distintos valores
 */
@@ -67,8 +65,7 @@ typedef enum logic[3:0]{
 }b_instructions; 
 
 typedef enum logic[3:0]{
-    LUI 
-  // AUIPC
+    LUI, AUIPC
 }u_instructions; 
 
 typedef enum logic[3:0]{
@@ -81,10 +78,9 @@ typedef enum logic[3:0]{
 
 /*
 * Como se tiene una organizacion de las intrucciones 
-* se puede simplemente devolver despues se le asigna el valor a un logic
-* [31:0] para mandar la instruccion 
+* se puede simplemente devolver después se le asigna el valor a un logic
+* [31:0] para mandar la instrucción 
 */
-
 
 typedef struct packed{
     logic [6:0] funct7;   // Bits [31:25]
@@ -94,7 +90,6 @@ typedef struct packed{
     logic [4:0] rd;       // Bits [11:7]
     logic [6:0] opcode;   // Bits [6:0]
 }r_instr_t;
-
 
 typedef struct packed {
     logic [11:0] imm;     // Bits [31:20]
@@ -155,7 +150,6 @@ typedef struct packed {
     logic [4:0]  rd;        // Bits [11:7]
     logic [6:0]  opcode;    // Bits [6:0]
 } u_intr_t; 
-
 
 typedef struct packed{
     logic        imm_20;     // Bit  [31]

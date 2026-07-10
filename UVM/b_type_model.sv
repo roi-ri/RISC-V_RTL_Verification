@@ -19,7 +19,8 @@ package b_type_model;
     function automatic result b_type_model_reference(
         input result       current_reference,
         input logic [31:0] instr,
-        input logic [31:0] reg_mem[]
+        input logic [31:0] rs1_value,
+        input logic [31:0] rs2_value
     );
 
         result reference;
@@ -27,10 +28,6 @@ package b_type_model;
         logic [2:0]  funct3;
         logic [4:0]  rs1;
         logic [4:0]  rs2;
-        logic [31:0] rs1_value;
-        logic [31:0] rs2_value;
-
-
         // Conservar la información anterior
         reference = current_reference;
 
@@ -60,24 +57,8 @@ package b_type_model;
             1'b0
         };
 
-
-        // Lectura del banco de registros
-
-        if (rs1 == 5'd0) begin
-            rs1_value = 32'd0;
-        end else begin
-            rs1_value = reg_mem[rs1];
-        end
-
-        if (rs2 == 5'd0) begin
-            rs2_value = 32'd0;
-        end else begin
-            rs2_value = reg_mem[rs2];
-        end
-
         reference.rs1_val = rs1_value;
         reference.rs2_val = rs2_value;
-
 
         // Evaluación de la condición del branch
 
@@ -114,7 +95,7 @@ package b_type_model;
             3'b111: begin
                 reference.branch = ($unsigned(rs1_value) >= $unsigned(rs2_value));
             end
-          
+
             default: begin
                 reference.branch = 1'b0;
             end
@@ -132,6 +113,8 @@ package b_type_model;
             reference.pc_ref_next = reference.pc_ref + 32'd4;
             reference.pc_4 = 1'b1;
         end
+
+        return reference;
 
     endfunction
 
