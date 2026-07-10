@@ -2,7 +2,7 @@
 * ===================================================================================
 *
 * - File        : interface.sv
-* - Autor       : Rodrigo Sanchez Araya (C37259) - Luis Diego Ramírez Leitón (C36421)
+* - Autor       : Rodrigo Sánchez Araya (C37259) - Luis Diego Ramírez Leitón (C36421)
 * - Curso       : IE0621 - Verificación Funcional del Diseño de Circuitos Integrados
 *                 Universidad de Costa Rica.
 * - Fecha       : 13/6/2026

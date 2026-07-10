@@ -8,7 +8,7 @@ rm -f "${LOG}"
 rm -f dump.vcd
 
 # Toda la salida posterior se guarda únicamente en riviera.log:
-exec >"${LOG}" 2>&1
+# exec >"${LOG}" 2>&1
 
 vlib work
 

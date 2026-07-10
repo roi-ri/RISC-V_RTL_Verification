@@ -1,13 +1,13 @@
 /*
 * ======================================================================================
 *
-* - File        : agent_read.sv (agente pasivo)
+* - File        : agent_read.sv (agente pasívo)
 * - Autor       : Luis Diego Ramírez Leitón (C36421)
 * - Curso       : IE0621 - Verificación Funcional del Diseño de Circuitos Integrados
 *                 Universidad de Costa Rica.
 * - Fecha       : 13-06-2026
 *
-* - Descripción : Este programa define el agente pasivo del ambiente de verificación.
+* - Descripción : Este programa define el agente pasívo del ambiente de verificación.
 *                 El agente contiene el monitor encargado de observar las salidas
 *                 experimentales producidas por el DUT y enviarlas al scoreboard
 *                 mediante un analysis port.

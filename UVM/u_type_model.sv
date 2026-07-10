@@ -47,16 +47,20 @@ package u_type_model;
         // Implementación de LUI
 
         case (reference.instr_name)
-          
+
             "LUI": begin
               	// LUI coloca el inmediato en los bits [31:12] y llena los bits [11:0] con ceros
                 reference.res_ref = reference.imm;
             end
 
+            "AUIPC": begin
+                reference.res_ref = reference.pc_ref + reference.imm;
+            end
+
             default: begin
                 reference.res_ref = 32'd0;
             end
-          
+
         endcase
 
         // El PC avanza normalmente en 4:

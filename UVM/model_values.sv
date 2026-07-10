@@ -1,19 +1,22 @@
 /*
-*
 * =============================================================================
 *
 * - File        : model_values.sv
-* - Autor       : Brandon Jiménez Campos (C33972)
+* - Autor       : Luis Diego Ramírez Leitón (C36421), Rodrigo Sánchez Araya (C37259), Brandon Jiménez Campos (C33972)
 * - Curso       : Verificación Funcional del Diseño de Circuitos Integrados
-* - Fecha       :
-* - Descripción : Contiene las estructuras, tipos de datos y valores utilizados
-*                 por los modelos de referencia y el scoreboard para almacenar
-*                 los resultados esperados de las instrucciones RISC-V.
+* - Fecha       : 09-07-2026
+* - Descripción : Paquete que define la estructura comun utilizada por los
+*                 modelos de referencia y el scoreboard para transportar
+*                 resultados esperados, operandos, PC y banderas de control.
 *
 * =============================================================================
 */
+
+// Se crea el paquete con la estructura compartida por los modelos de referencia:
 package model_values;
     import instr_pkg::*;
+
+    // Se declara la estructura que transporta el estado teórico de cada instrucción:
     typedef struct {
         logic [31:0] res_ref;
         logic [4:0]  rd;

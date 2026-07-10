@@ -1,20 +1,24 @@
 /*
-*
 * =============================================================================
 *
 * - File        : r_type_model.sv
-* - Autor       : Brandon Jiménez Campos (C33972)
+* - Autor       : Luis Diego Ramírez Leitón (C36421), Rodrigo Sánchez Araya (C37259), Brandon Jiménez Campos (C33972)
 * - Curso       : Verificación Funcional del Diseño de Circuitos Integrados
-* - Fecha       :
-* - Descripción : Modelo de referencia encargado de calcular el resultado
-*                 esperado para las instrucciones R-Type del procesador RISC-V.
+* - Fecha       : 09-07-2026
+* - Descripción : Modelo de referencia para instrucciones tipo R. Decodifica
+*                 registros fuente y destino, calcula operaciones ALU y entrega
+*                 el resultado esperado al scoreboard.
 *
 * =============================================================================
 */
+
+// Se crea el paquete con el modelo de referencia para instrucciones tipo R:
 package r_type_model;
 
+    // Se importa la estructura comun de resultados teóricos:
     import model_values::*;
 
+    // Función para calcular operaciones ALU entre registros fuente:
     function automatic result r_type_model_reference(
         input result       current_reference,
         input logic [31:0] instr,
@@ -26,6 +30,10 @@ package r_type_model;
 
         // Se conserva la información del struct actual:
         reference = current_reference;
+
+        // Campos de la instrucción R-TYPE:
+        reference.rs2 = instr[24:20];
+        reference.rs1 = instr[19:15];
         reference.rd  = instr[11:7];
         reference.imm    = 32'd0;
         reference.branch = 1'b0;
